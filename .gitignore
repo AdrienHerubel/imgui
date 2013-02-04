@@ -1,0 +1,5 @@
+obj/
+Makefile
+*.make
+*.a
+sample
