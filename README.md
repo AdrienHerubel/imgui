@@ -10,6 +10,8 @@ TrueType loading and rendering is done using stb_truetype : http://nothings.org/
 
 The OpenGL backend was ported from OpenGL immediate mode to OpenGL 3.2 mainly to be compatible with Mac OS X core profile.
 
+![Alt text](http://adrien.io/img/imgui/imgui.png)
+
 Build
 -------------------------
 The only depedency is OpenGL. GLFW, GLEW are embeded with the samples.
@@ -38,4 +40,4 @@ Windows : Tested on Windows 7 with Visual Studio 2008 and 2010
 Usage
 ----------------------------
 
-Consult *sample.cpp* for a detailed usage example. 
+Consult [sample.cpp](https://github.com/AdrienHerubel/imgui/blob/master/sample.cpp) for a detailed usage example. 
