@@ -16,12 +16,21 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
+// Source altered and distributed from https://github.com/AdrienHerubel/imgui
+
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <stdio.h>
 
+#include "glew/glew.h"
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#else
+#include <GL/gl.h>
+#endif
+
 #include "imgui.h"
-#include "GLCommon.hpp"
 
 // Some math headers don't have PI defined.
 static const float PI = 3.14159265f;

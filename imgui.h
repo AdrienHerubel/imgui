@@ -17,6 +17,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
+// Source altered and distributed from https://github.com/AdrienHerubel/imgui
+
 #ifndef IMGUI_H
 #define IMGUI_H
 

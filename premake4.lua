@@ -1,13 +1,16 @@
+-- premake.lua - public domain
+-- authored from 2012-2013 by Adrien Herubel 
+
 solution "imgui"
    configurations { "Debug", "Release" }
    platforms {"native", "x64", "x32"}
 
   
-   -- imgui sample
-   project "sample"
+   -- imgui sample_gl3
+   project "sample_gl3"
       kind "ConsoleApp"
       language "C++"
-      files { "sample.cpp", "imgui.cpp",  "imguiRenderGL.cpp",  "imgui.h",  "imguiRenderGL.h",  "stb_truetype.h" }
+      files { "sample_gl3.cpp", "imgui.cpp",  "imguiRenderGL3.cpp",  "imgui.h",  "imguiRenderGL3.h",  "stb_truetype.h" }
       includedirs { "lib/glfw/include", "src", "common", "lib/" }
       links {"glfw", "glew"}
       defines { "GLEW_STATIC" }

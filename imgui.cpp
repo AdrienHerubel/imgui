@@ -16,6 +16,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
+// Source altered and distributed from https://github.com/AdrienHerubel/imgui
+
 #include <stdio.h>
 #include <string.h>
 #define _USE_MATH_DEFINES

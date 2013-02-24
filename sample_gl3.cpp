@@ -1,15 +1,24 @@
+// sample_gl3.cpp - public domain
+// authored from 2012-2013 by Adrien Herubel 
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
 #include <cmath>
-
 #include <iostream>
 
-#include "GLCommon.hpp"
+#include "glew/glew.h"
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#else
+#include <GL/gl.h>
+#endif
 #include "GL/glfw.h"
+
 #include "imgui.h"
-#include "imguiRenderGL.h"
+#include "imguiRenderGL3.h"
 
 int main( int argc, char **argv )
 {
