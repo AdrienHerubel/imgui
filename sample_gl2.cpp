@@ -1,4 +1,4 @@
-// sample_gl3.cpp - public domain
+// sample_gl2.cpp - public domain
 // authored from 2012-2013 by Adrien Herubel 
 
 
@@ -11,14 +11,14 @@
 
 #include "glew/glew.h"
 #ifdef __APPLE__
-#include <OpenGL/gl3.h>
+#include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif
 #include "GL/glfw.h"
 
 #include "imgui.h"
-#include "imguiRenderGL3.h"
+#include "imguiRenderGL2.h"
 
 int main( int argc, char **argv )
 {
@@ -31,12 +31,6 @@ int main( int argc, char **argv )
         exit( EXIT_FAILURE );
     }
 
-#ifdef __APPLE__
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
-    glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#endif
     // Open a window and create its OpenGL context
     if( !glfwOpenWindow( width, height, 0,0,0,0, 24,0, GLFW_WINDOW ) )
     {
@@ -45,11 +39,7 @@ int main( int argc, char **argv )
         exit( EXIT_FAILURE );
     }
 
-    glfwSetWindowTitle( "imgui sample imguiRenderGL3" );
-
-#ifdef __APPLE__
-    glewExperimental = GL_TRUE;
-#endif
+    glfwSetWindowTitle( "imgui sample imguiRenderGL2" );
     GLenum err = glewInit();
     if (GLEW_OK != err)
     {
@@ -95,8 +85,6 @@ int main( int argc, char **argv )
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Draw UI
-
         // Mouse states
         unsigned char mousebutton = 0;
         int currentglfwscroll = glfwGetMouseWheel();
@@ -116,6 +104,19 @@ int main( int argc, char **argv )
         if( leftButton == GLFW_PRESS )
             mousebutton |= IMGUI_MBUT_LEFT;
     
+        // Draw UI
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        float projection[16] = { 2.f/width, 0.f, 0.f,  0.f,
+                                 0.f, 2.f/height,  0.f,  0.f,
+                                 0.f,  0.f, -2.f, 0.f,
+                                 -1.f, -1.f,  -1.f,  1.f };
+        glLoadMatrixf(projection);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glUseProgram(0);
+
+
         imguiBeginFrame(mousex, mousey, mousebutton, mscroll);
 
         imguiBeginScrollArea("Scroll area", 10, 10, width / 5, height - 20, &scrollarea1);

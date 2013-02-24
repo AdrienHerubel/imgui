@@ -2,4 +2,4 @@ obj/
 Makefile
 *.make
 *.a
-sample
+sample_*

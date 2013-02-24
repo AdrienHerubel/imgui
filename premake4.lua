@@ -32,6 +32,33 @@ solution "imgui"
          defines { "NDEBUG" }
          flags { "Optimize", "ExtraWarnings"}    
 
+  
+   -- imgui sample_gl2
+   project "sample_gl2"
+      kind "ConsoleApp"
+      language "C++"
+      files { "sample_gl2.cpp", "imgui.cpp",  "imguiRenderGL2.cpp",  "imgui.h",  "imguiRenderGL2.h",  "stb_truetype.h" }
+      includedirs { "lib/glfw/include", "src", "common", "lib/" }
+      links {"glfw", "glew"}
+      defines { "GLEW_STATIC" }
+     
+      configuration { "linux" }
+         links {"X11","Xrandr", "rt", "GL", "GLU", "pthread"}
+       
+      configuration { "windows" }
+         links {"glu32","opengl32", "gdi32", "winmm", "user32"}
+
+      configuration { "macosx" }
+         linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit" }
+       
+      configuration "Debug"
+         defines { "DEBUG" }
+         flags { "Symbols", "ExtraWarnings"}
+
+      configuration "Release"
+         defines { "NDEBUG" }
+         flags { "Optimize", "ExtraWarnings"}    
+
 
    -- GLFW Library
    project "glfw"
