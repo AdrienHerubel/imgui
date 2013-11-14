@@ -622,6 +622,7 @@ void imguiRenderGLDraw(int width, int height)
 
         glViewport(0, 0, width, height);
         glUseProgram(g_program);
+	glActiveTexture(GL_TEXTURE0);
         glUniform2f(g_programViewportLocation, (float) width, (float) height);
         glUniform1i(g_programTextureLocation, 0);
 
