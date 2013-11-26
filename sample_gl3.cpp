@@ -20,6 +20,31 @@
 #include "imgui.h"
 #include "imguiRenderGL3.h"
 
+int KeyUNICODE=0;
+
+void GetUNICODE(int UnicodeCode, int GLFW_KeyAction){
+	KeyUNICODE = UnicodeCode;
+}
+
+void GetControlKEY(int UnicodeCode, int GLFW_KeyAction){
+	if(GLFW_KeyAction == GLFW_PRESS)
+	{
+		switch (UnicodeCode)
+		{
+		case GLFW_KEY_BACKSPACE:
+			KeyUNICODE=0x08;
+			break;
+		case GLFW_KEY_ENTER:
+			KeyUNICODE=0x0D;
+			break;
+		default:
+			break;
+		}
+	}
+	if(GLFW_KeyAction == GLFW_RELEASE)
+		KeyUNICODE = 0;
+}
+
 int main( int argc, char **argv )
 {
     int width = 1024, height=768;
@@ -88,6 +113,11 @@ int main( int argc, char **argv )
 
     // glfw scrolling
     int glfwscroll = 0;
+
+	//glfw callback
+	glfwSetCharCallback(GetUNICODE);	glfwSetKeyCallback(GetControlKEY);	char input[15];
+	sprintf(input, "type here");
+
     do
     {
         glfwGetWindowSize(&width, &height);
@@ -116,7 +146,7 @@ int main( int argc, char **argv )
         if( leftButton == GLFW_PRESS )
             mousebutton |= IMGUI_MBUT_LEFT;
     
-        imguiBeginFrame(mousex, mousey, mousebutton, mscroll);
+        imguiBeginFrame(mousex, mousey, mousebutton, mscroll, KeyUNICODE);
 
         imguiBeginScrollArea("Scroll area", 10, 10, width / 5, height - 20, &scrollarea1);
         imguiSeparatorLine();
@@ -152,6 +182,8 @@ int main( int argc, char **argv )
         imguiLabel("Indented");
         imguiUnindent();
         imguiLabel("Unindented");
+
+		imguiTextInput("Text Input", input, 15);
 
         imguiEndScrollArea();
 

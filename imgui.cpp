@@ -146,8 +146,8 @@ struct GuiState
 {
         GuiState() :
                 left(false), leftPressed(false), leftReleased(false),
-                mx(-1), my(-1), scroll(0),
-                active(0), hot(0), hotToBe(0), isHot(false), isActive(false), wentActive(false),
+                mx(-1), my(-1), scroll(0), ascii(0), lastAscii(0),
+                inputable(0), active(0), hot(0), hotToBe(0), isHot(false), isActive(false), wentActive(false),
                 dragX(0), dragY(0), dragOrig(0), widgetX(0), widgetY(0), widgetW(100),
                 insideCurrentScroll(false),  areaId(0), widgetId(0)
         {
@@ -157,6 +157,9 @@ struct GuiState
         bool leftPressed, leftReleased;
         int mx,my;
         int scroll;
+		char ascii;
+		char lastAscii;
+		unsigned int inputable;
         unsigned int active;
         unsigned int hot;
         unsigned int hotToBe;
@@ -182,6 +185,11 @@ inline bool anyActive()
 inline bool isActive(unsigned int id)
 {
         return g_state.active == id;
+}
+
+inline bool isInputable(unsigned int id)
+{
+		return g_state.inputable == id;
 }
 
 inline bool isHot(unsigned int id)
@@ -211,7 +219,12 @@ inline void clearActive()
 inline void setActive(unsigned int id)
 {
         g_state.active = id;
+		g_state.inputable = 0;
         g_state.wentActive = true;
+}
+
+inline void setInputable(unsigned int id){
+	g_state.inputable = id;
 }
 
 inline void setHot(unsigned int id)
@@ -252,7 +265,25 @@ static bool buttonLogic(unsigned int id, bool over)
         return res;
 }
 
-static void updateInput(int mx, int my, unsigned char mbut, int scroll)
+static bool textInputLogic(unsigned int id, bool over){
+	//same as button logic without the react on left up
+	bool res = false;
+	// process down
+	if (!anyActive())
+	{
+		if (over)
+			setHot(id);
+		if (isHot(id) && g_state.leftPressed)
+			setInputable(id);
+	}
+
+	if (isHot(id))
+		g_state.isHot = true;
+
+	return res;
+}
+
+static void updateInput(int mx, int my, unsigned char mbut, int scroll, char asciiCode)
 {
         bool left = (mbut & IMGUI_MBUT_LEFT) != 0;
 
@@ -263,11 +294,16 @@ static void updateInput(int mx, int my, unsigned char mbut, int scroll)
         g_state.left = left;
 
         g_state.scroll = scroll;
+
+		if(asciiCode > 0x80) //only ascii code handled
+			asciiCode = 0;
+		g_state.lastAscii = g_state.ascii;
+		g_state.ascii = asciiCode;
 }
 
-void imguiBeginFrame(int mx, int my, unsigned char mbut, int scroll)
+void imguiBeginFrame(int mx, int my, unsigned char mbut, int scroll, char asciiCode/*=0*/)
 {
-        updateInput(mx,my,mbut,scroll);
+        updateInput(mx,my,mbut,scroll,asciiCode);
 
         g_state.hot = g_state.hotToBe;
         g_state.hotToBe = 0;
@@ -625,6 +661,43 @@ bool imguiSlider(const char* text, float* val, float vmin, float vmax, float vin
         }
 
         return res || valChanged;
+}
+
+bool imguiTextInput(const char* text, char* buffer, unsigned int bufferLength)
+{
+	bool res = true;
+	//--
+	//Handle label
+	g_state.widgetId++;
+	unsigned int id = (g_state.areaId<<16) | g_state.widgetId;
+	int x = g_state.widgetX;
+	int y = g_state.widgetY - BUTTON_HEIGHT;
+	addGfxCmdText(x, y+BUTTON_HEIGHT/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, text, imguiRGBA(255,255,255,255));
+	unsigned int textLen = unsigned int(strlen(text)*6.5);
+	//--
+	//Handle keyboard input if any
+	unsigned int L = strlen(buffer);
+	if(g_state.ascii == 0x08 && g_state.ascii!=g_state.lastAscii)//backspace
+		buffer[L-1]=0;
+	else if(g_state.ascii == 0x0D && g_state.ascii!=g_state.lastAscii)//enter
+		g_state.inputable = 0;
+	else if(isInputable(id) && L < bufferLength-1 && g_state.ascii!=0 && g_state.ascii!=g_state.lastAscii){
+		++L;
+		buffer[L-1] = g_state.ascii;
+		buffer[L] = 0;
+	}
+	//--
+	//Handle buffer data
+	x+=textLen;
+	int w = g_state.widgetW-textLen;
+	int h = BUTTON_HEIGHT;
+	bool over = inRect(x, y, w, h);
+	res = textInputLogic(id, over);
+	addGfxCmdRoundedRect((float)x, (float)y, (float)w, (float)h, (float)BUTTON_HEIGHT/2-1, isInputable(id)?imguiRGBA(255,196,0,255):imguiRGBA(128,128,128,96));
+	addGfxCmdText(x+7, y+BUTTON_HEIGHT/2-TEXT_HEIGHT/2, IMGUI_ALIGN_LEFT, buffer, isInputable(id)?imguiRGBA(0, 0, 0, 255):imguiRGBA(255,255,255,255));
+	//--
+	g_state.widgetY -= BUTTON_HEIGHT + DEFAULT_SPACING;
+	return res;		
 }
 
 
