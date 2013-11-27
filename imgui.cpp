@@ -677,9 +677,9 @@ bool imguiTextInput(const char* text, char* buffer, unsigned int bufferLength)
 	//--
 	//Handle keyboard input if any
 	unsigned int L = strlen(buffer);
-	if(g_state.ascii == 0x08 && g_state.ascii!=g_state.lastAscii)//backspace
+	if(isInputable(id) && g_state.ascii == 0x08 && g_state.ascii!=g_state.lastAscii)//backspace
 		buffer[L-1]=0;
-	else if(g_state.ascii == 0x0D && g_state.ascii!=g_state.lastAscii)//enter
+	else if(isInputable(id) && g_state.ascii == 0x0D && g_state.ascii!=g_state.lastAscii)//enter
 		g_state.inputable = 0;
 	else if(isInputable(id) && L < bufferLength-1 && g_state.ascii!=0 && g_state.ascii!=g_state.lastAscii){
 		++L;
