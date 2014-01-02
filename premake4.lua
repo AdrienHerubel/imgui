@@ -9,10 +9,10 @@ solution "imgui"
    -- imgui sample_gl3
    project "sample_gl3"
       kind "ConsoleApp"
-      language "C++"
-      files { "sample_gl3.cpp", "imgui.cpp",  "imguiRenderGL3.cpp",  "imgui.h",  "imguiRenderGL3.h",  "stb_truetype.h" }
-      includedirs { "lib/glfw/include", "src", "common", "lib/" }
-      links {"glfw", "glew"}
+      language "C"
+      files { "sample_gl3.c", "imgui.c",  "imguiRenderGL3.c",  "imgui.h",  "imguiRenderGL3.h",  "stb_truetype.h" }
+      includedirs { "lib/glfw/include", "lib/glew/include" }
+      links {"glfw", "glew", "m"}
       defines { "GLEW_STATIC" }
      
       configuration { "linux" }
@@ -36,10 +36,11 @@ solution "imgui"
    -- imgui sample_gl2
    project "sample_gl2"
       kind "ConsoleApp"
-      language "C++"
-      files { "sample_gl2.cpp", "imgui.cpp",  "imguiRenderGL2.cpp",  "imgui.h",  "imguiRenderGL2.h",  "stb_truetype.h" }
-      includedirs { "lib/glfw/include", "src", "common", "lib/" }
-      links {"glfw", "glew"}
+      language "C"
+      files { "sample_gl2.c", "imgui.c",  "imguiRenderGL2.c",  "imgui.h",  "imguiRenderGL2.h",  "stb_truetype.h" }
+      includedirs { "lib/glfw/include", "lib/glew/include" }
+      links {"glfw", "glew", "m"}
+
       defines { "GLEW_STATIC" }
      
       configuration { "linux" }
@@ -64,23 +65,23 @@ solution "imgui"
    project "glfw"
       kind "StaticLib"
       language "C"
-      files { "lib/glfw/lib/*.h", "lib/glfw/lib/*.c", "lib/glfw/include/GL/glfw.h" }
-      includedirs { "lib/glfw/lib", "lib/glfw/include"}
+      files { "lib/glfw/src/*.h", "lib/glfw/src/*.c", "lib/glfw/include/GL/glfw.h" }
+      includedirs { "lib/glfw/src/", "lib/glfw/include"}
 
       configuration {"linux"}
-         files { "lib/glfw/lib/x11/*.c", "lib/glfw/x11/*.h" }
-         includedirs { "lib/glfw/lib/x11" }
+         files { "lib/glfw/src/x11/*.c", "lib/glfw/x11/*.h" }
+         includedirs { "lib/glfw/src/x11" }
          defines { "_GLFW_USE_LINUX_JOYSTICKS", "_GLFW_HAS_XRANDR", "_GLFW_HAS_PTHREAD" ,"_GLFW_HAS_SCHED_YIELD", "_GLFW_HAS_GLXGETPROCADDRESS" }
          buildoptions { "-pthread" }
        
       configuration {"windows"}
-         files { "lib/glfw/lib/win32/*.c", "lib/glfw/win32/*.h" }
-         includedirs { "lib/glfw/lib/win32" }
+         files { "lib/glfw/src/win32/*.c", "lib/glfw/src/win32/*.h" }
+         includedirs { "lib/glfw/src/win32" }
          defines { "_GLFW_USE_LINUX_JOYSTICKS", "_GLFW_HAS_XRANDR", "_GLFW_HAS_PTHREAD" ,"_GLFW_HAS_SCHED_YIELD", "_GLFW_HAS_GLXGETPROCADDRESS" }
        
       configuration {"Macosx"}
-         files { "lib/glfw/lib/cocoa/*.c", "lib/glfw/lib/cocoa/*.h", "lib/glfw/lib/cocoa/*.m" }
-         includedirs { "lib/glfw/lib/cocoa" }
+         files { "lib/glfw/src/cocoa/*.c", "lib/glfw/src/cocoa/*.h", "lib/glfw/src/cocoa/*.m" }
+         includedirs { "lib/glfw/src/cocoa" }
          defines { }
          buildoptions { " -fno-common" }
          linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit" }
@@ -97,7 +98,8 @@ solution "imgui"
    project "glew"
       kind "StaticLib"
       language "C"
-      files {"lib/glew/*.c", "lib/glew/*.h"}
+      files {"lib/glew/src/*.c" }
+	  includedirs { "lib/glew/include" }
       defines { "GLEW_STATIC" }
 
       configuration "Debug"

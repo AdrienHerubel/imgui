@@ -21,9 +21,16 @@
 
 #ifndef IMGUI_RENDER_GL_H
 #define IMGUI_RENDER_GL_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-bool imguiRenderGLInit(const char* fontpath);
+imguiBool imguiRenderGLInit(const char* fontpath);
 void imguiRenderGLDestroy();
 void imguiRenderGLDraw(int width, int height);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // IMGUI_RENDER_GL_H
