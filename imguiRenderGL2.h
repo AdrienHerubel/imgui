@@ -1,3 +1,4 @@
+/*
 //
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
@@ -17,17 +18,18 @@
 //
 
 // Source altered and distributed from https://github.com/AdrienHerubel/imguir
-
+*/
 
 #ifndef IMGUI_RENDER_GL_H
 #define IMGUI_RENDER_GL_H
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-imguiBool imguiRenderGLInit(const char* fontpath);
-void imguiRenderGLDestroy();
-void imguiRenderGLDraw(int width, int height);
+    imguiBool imguiRenderGLInit(const char* fontpath);
+    void imguiRenderGLDestroy();
+    void imguiRenderGLDraw(int width, int height);
 
 #ifdef __cplusplus
 }

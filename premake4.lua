@@ -12,17 +12,17 @@ solution "imgui"
       language "C"
       files { "sample_gl3.c", "imgui.c",  "imguiRenderGL3.c",  "imgui.h",  "imguiRenderGL3.h",  "stb_truetype.h" }
       includedirs { "lib/glfw/include", "lib/glew/include" }
-      links {"glfw", "glew", "m"}
+      links {"glfw", "glew"}
       defines { "GLEW_STATIC" }
      
       configuration { "linux" }
-         links {"X11","Xrandr", "rt", "GL", "GLU", "pthread"}
+         links {"X11","Xrandr", "rt", "GL", "GLU", "pthread", "m"}
        
       configuration { "windows" }
          links {"glu32","opengl32", "gdi32", "winmm", "user32"}
 
       configuration { "macosx" }
-         linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit" }
+         linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "m" }
        
       configuration "Debug"
          defines { "DEBUG" }
@@ -39,18 +39,18 @@ solution "imgui"
       language "C"
       files { "sample_gl2.c", "imgui.c",  "imguiRenderGL2.c",  "imgui.h",  "imguiRenderGL2.h",  "stb_truetype.h" }
       includedirs { "lib/glfw/include", "lib/glew/include" }
-      links {"glfw", "glew", "m"}
+      links {"glfw", "glew"}
 
       defines { "GLEW_STATIC" }
      
       configuration { "linux" }
-         links {"X11","Xrandr", "rt", "GL", "GLU", "pthread"}
+         links {"X11","Xrandr", "rt", "GL", "GLU", "pthread", "m"}
        
       configuration { "windows" }
          links {"glu32","opengl32", "gdi32", "winmm", "user32"}
 
       configuration { "macosx" }
-         linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit" }
+         linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "m"}
        
       configuration "Debug"
          defines { "DEBUG" }
