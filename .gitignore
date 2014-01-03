@@ -1,4 +1,6 @@
-obj/
+obj
+vs2010
+gmake
 Makefile
 *.make
 *.a
