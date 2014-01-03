@@ -5,6 +5,12 @@ solution "imgui"
    configurations { "Debug", "Release" }
    platforms {"native", "x64", "x32"}
 
+   if(_ACTION == "gmake") then
+	  location "gmake"
+   else
+	  location "vs2010"
+   end
+
   
    -- imgui sample_gl3
    project "sample_gl3"
@@ -109,3 +115,11 @@ solution "imgui"
       configuration "Release"
          defines { "NDEBUG" }
          flags { "Optimize", "ExtraWarnings" }    
+
+-- Clean
+if _ACTION == "clean" then
+   os.rmdir("bin")
+   os.rmdir("obj")
+   os.rmdir("gmake")
+   os.rmdir("vs2010")
+end
