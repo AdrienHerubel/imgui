@@ -31,20 +31,21 @@
 #include <GL/gl.h>
 #endif
 
-/* // Some math headers don't have PI defined. */
+/* Some math headers don't have PI defined. */
 static const float PI = 3.14159265f;
 static unsigned int i;
 
+/*
 void imguifree(void* ptr, void* userptr);
 void* imguimalloc(size_t size, void* userptr);
 
 #define STBTT_malloc(x,y)    imguimalloc(x,y)
-#define STBTT_free(x,y)      imguifree(x,y)
+#define STBTT_free(x,y)      imguifree(x,y)*/
+
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
 
-
-
+/*
 void imguifree(void* ptr, void* userptr)
 {
     free(ptr);
@@ -54,13 +55,13 @@ void* imguimalloc(size_t size, void* userptr)
 {
     return malloc(size);
 }
+*/
+
 #define TEMP_COORD_COUNT 100
-/*static const unsigned TEMP_COORD_COUNT = 100;*/
+#define CIRCLE_VERTS 32 
+
 static float g_tempCoords[TEMP_COORD_COUNT*2];
 static float g_tempNormals[TEMP_COORD_COUNT*2];
-
-/*static const int CIRCLE_VERTS = 8*4;*/
-#define CIRCLE_VERTS 32
 static float g_circleVerts[CIRCLE_VERTS*2];
 
 static stbtt_bakedchar g_cdata[96]; // ASCII 32..126 is 95 glyphs
