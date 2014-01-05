@@ -1,4 +1,4 @@
-
+/*
 //
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
@@ -18,94 +18,108 @@
 //
 
 // Source altered and distributed from https://github.com/AdrienHerubel/imgui
-
+*/
 #ifndef IMGUI_H
 #define IMGUI_H
 
-enum imguiMouseButton
-{
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#define IMGUI_TRUE  1
+#define IMGUI_FALSE 0
+
+    typedef unsigned char imguiBool;
+
+    enum imguiMouseButton
+    {
         IMGUI_MBUT_LEFT = 0x01, 
         IMGUI_MBUT_RIGHT = 0x02, 
-};
+    };
 
-enum imguiTextAlign
-{
+    enum imguiTextAlign
+    {
         IMGUI_ALIGN_LEFT,
         IMGUI_ALIGN_CENTER,
         IMGUI_ALIGN_RIGHT,
-};
+    };
 
-inline unsigned int imguiRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a=255)
-{
+    static unsigned int imguiRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+    {
         return (r) | (g << 8) | (b << 16) | (a << 24);
-}
+    }
 
-void imguiBeginFrame(int mx, int my, unsigned char mbut, int scroll);
-void imguiEndFrame();
+    void imguiInit();
+    void imguiBeginFrame(int mx, int my, unsigned char mbut, int scroll);
+    void imguiEndFrame();
 
-bool imguiBeginScrollArea(const char* name, int x, int y, int w, int h, int* scroll);
-void imguiEndScrollArea();
+    imguiBool imguiBeginScrollArea(const char* name, int x, int y, int w, int h, int* scroll);
+    void imguiEndScrollArea();
 
-void imguiIndent();
-void imguiUnindent();
-void imguiSeparator();
-void imguiSeparatorLine();
+    void imguiIndent();
+    void imguiUnindent();
+    void imguiSeparator();
+    void imguiSeparatorLine();
 
-bool imguiButton(const char* text, bool enabled = true);
-bool imguiItem(const char* text, bool enabled = true);
-bool imguiCheck(const char* text, bool checked, bool enabled = true);
-bool imguiCollapse(const char* text, const char* subtext, bool checked, bool enabled = true);
-void imguiLabel(const char* text);
-void imguiValue(const char* text);
-bool imguiSlider(const char* text, float* val, float vmin, float vmax, float vinc, bool enabled = true);
+    imguiBool imguiButton(const char* text, imguiBool enabled);
+    imguiBool imguiItem(const char* text, imguiBool enabled);
+    imguiBool imguiCheck(const char* text, imguiBool checked, imguiBool enabled);
+    imguiBool imguiCollapse(const char* text, const char* subtext, imguiBool checked, imguiBool enable);
+    void imguiLabel(const char* text);
+    void imguiValue(const char* text);
+    imguiBool imguiSlider(const char* text, float* val, float vmin, float vmax, float vinc, imguiBool enabled);
 
-void imguiDrawText(int x, int y, int align, const char* text, unsigned int color);
-void imguiDrawLine(float x0, float y0, float x1, float y1, float r, unsigned int color);
-void imguiDrawRoundedRect(float x, float y, float w, float h, float r, unsigned int color);
-void imguiDrawRect(float x, float y, float w, float h, unsigned int color);
+    void imguiDrawText(int x, int y, int align, const char* text, unsigned int color);
+    void imguiDrawLine(float x0, float y0, float x1, float y1, float r, unsigned int color);
+    void imguiDrawRoundedRect(float x, float y, float w, float h, float r, unsigned int color);
+    void imguiDrawRect(float x, float y, float w, float h, unsigned int color);
 
-// Pull render interface.
-enum imguiGfxCmdType
-{
+    /* // Pull render interface. */
+    enum imguiGfxCmdType
+    {
         IMGUI_GFXCMD_RECT,
         IMGUI_GFXCMD_TRIANGLE,
         IMGUI_GFXCMD_LINE,
         IMGUI_GFXCMD_TEXT,
         IMGUI_GFXCMD_SCISSOR,
-};
+    };
 
-struct imguiGfxRect
-{
+    struct imguiGfxRect
+    {
         short x,y,w,h,r;
-};
+    };
 
-struct imguiGfxText
-{
+    struct imguiGfxText
+    {
         short x,y,align;
         const char* text;
-};
+    };
 
-struct imguiGfxLine
-{
+    struct imguiGfxLine
+    {
         short x0,y0,x1,y1,r;
-};
+    };
 
-struct imguiGfxCmd
-{
+    struct imguiGfxCmd
+    {
         char type;
         char flags;
         char pad[2];
         unsigned int col;
         union
         {
-                imguiGfxLine line;
-                imguiGfxRect rect;
-                imguiGfxText text;
+            struct imguiGfxLine line;
+            struct imguiGfxRect rect;
+            struct imguiGfxText text;
         };
-};
+    };
 
-const imguiGfxCmd* imguiGetRenderQueue();
-int imguiGetRenderQueueSize();
+    const struct imguiGfxCmd * imguiGetRenderQueue();
+    int imguiGetRenderQueueSize();
+
+#ifdef __cplusplus
+}
+#endif
 
 
-#endif // IMGUI_H
+#endif/* // IMGUI_H*/

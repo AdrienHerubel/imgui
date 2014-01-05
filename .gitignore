@@ -1,5 +1,8 @@
-obj/
+obj
+vs2010
+gmake
 Makefile
 *.make
 *.a
-sample_*
+sample_gl3
+sample_gl2
