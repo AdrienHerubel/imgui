@@ -44,10 +44,10 @@ int main( int argc, char **argv )
             exit( EXIT_FAILURE );
         }
 
-#ifdef __APPLE__
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 0);
 
+#ifdef __APPLE__
     glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
@@ -61,9 +61,8 @@ int main( int argc, char **argv )
 
     glfwSetWindowTitle( "imgui sample imguiRenderGL3" );
 
-#ifdef __APPLE__
     glewExperimental = GL_TRUE;
-#endif
+
     err = glewInit();
     if (GLEW_OK != err)
         {
