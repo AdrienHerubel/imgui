@@ -32,17 +32,17 @@ extern "C" {
     typedef unsigned char imguiBool;
 
     enum imguiMouseButton
-        {
-            IMGUI_MBUT_LEFT = 0x01, 
-            IMGUI_MBUT_RIGHT = 0x02, 
-        };
+    {
+        IMGUI_MBUT_LEFT = 0x01, 
+        IMGUI_MBUT_RIGHT = 0x02, 
+    };
 
     enum imguiTextAlign
-        {
-            IMGUI_ALIGN_LEFT,
-            IMGUI_ALIGN_CENTER,
-            IMGUI_ALIGN_RIGHT,
-        };
+    {
+        IMGUI_ALIGN_LEFT,
+        IMGUI_ALIGN_CENTER,
+        IMGUI_ALIGN_RIGHT,
+    };
 
     static unsigned int imguiRGBA(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
     {
@@ -76,13 +76,13 @@ extern "C" {
 
     /* // Pull render interface. */
     enum imguiGfxCmdType
-        {
-            IMGUI_GFXCMD_RECT,
-            IMGUI_GFXCMD_TRIANGLE,
-            IMGUI_GFXCMD_LINE,
-            IMGUI_GFXCMD_TEXT,
-            IMGUI_GFXCMD_SCISSOR,
-        };
+    {
+        IMGUI_GFXCMD_RECT,
+        IMGUI_GFXCMD_TRIANGLE,
+        IMGUI_GFXCMD_LINE,
+        IMGUI_GFXCMD_TEXT,
+        IMGUI_GFXCMD_SCISSOR,
+    };
 
     struct imguiGfxRect
     {
